@@ -8,7 +8,6 @@ struct Color {
     int blue;
 };
 
-
 static const int imageWidth = 1920;
 static const int imageHeight = 1080;
 
@@ -24,73 +23,74 @@ int main() {
     const int rectWidth = imageWidth/3 ;
     const int rectHeight = imageHeight/4;
 
-
+   
     std::srand(std::time(nullptr));
 
     for (int rowIdx = 0; rowIdx < imageHeight; ++rowIdx) {
-    for (int colIdx = 0; colIdx < imageWidth; ++colIdx) {
-        Color color = { 255, 255, 255 }; 
-        for (int rectIdx = 0; rectIdx < numRects; ++rectIdx) {
-            int rectX = (rectIdx % 3) * rectWidth;
-            int rectY = (rectIdx / 3) * rectHeight;
-
-            if (colIdx >= rectX && colIdx < rectX + rectWidth &&
-                rowIdx >= rectY && rowIdx < rectY + rectHeight) {
-
-                    if (rectIdx == 0) {
-
-                        color.red = std::rand() % 256;
-                        color.green = 0;
-                        color.blue = 0;
-                    } else if (rectIdx == 1) {
-
-                        color.red = 0;
-                        color.green = std::rand() % 256;
-                        color.blue = 0;
-                    } else if (rectIdx == 2) {
-
-                        color.red = 0;
-                        color.green = 0;
-                        color.blue = std::rand() % 256;
-                    } else if (rectIdx == 3) {
-
-                        color.red = std::rand() % 256;
-                        color.green = std::rand() % 256;
-                        color.blue = 0;
-                    } else if (rectIdx == 4) {
-                        color.red = std::rand() % 256;
-                        color.green = 0;
-                        color.blue = 0;
-                    } else if (rectIdx == 5) {
-                        color.red = std::rand() % 256;
-                        color.green = std::rand() % 256;
-                        color.blue = 0;
-                    } else if (rectIdx == 6) {
-                        color.red = std::rand() % 256;
-                        color.green = 0;
-                        color.blue = std::rand() % 256;
-                    } else if (rectIdx == 7) {
-                        color.red = 0;
-                        color.green = 0;
-                        color.blue = std::rand() % 256;
-                    } else if (rectIdx == 8) {
-                        color.red = 0;
-                        color.green = std::rand() % 256;
-                        color.blue = std::rand() % 256;
-                    } else if (rectIdx == 9) {
-                        color.red = 0;
-                        color.green = std::rand() % 256;
-                        color.blue = 0;
-                    } else if (rectIdx == 10) {
-                        color.red = 0;
-                        color.green = std::rand() % 256;
-                        color.blue = std::rand() % 256;
-                    } else if (rectIdx == 11) {
-                        color.red = std::rand() % 256;
-                        color.green = std::rand() % 256;
-                        color.blue = 0;
-                    } 
-                }
+        for (int colIdx = 0; colIdx < imageWidth; ++colIdx) {
+            Color color = { 255, 255, 255 }; 
+            int rectIdx = (colIdx/rectWidth) + (rowIdx/rectHeight)*3;
+            switch(rectIdx) {
+                case 0:
+                    color.red = std::rand() % 256;
+                    color.green = 0;
+                    color.blue = 0;
+                    break;
+                case 1:
+                    color.red = 0;
+                    color.green = std::rand() % 256;
+                    color.blue = 0;
+                    break;
+                case 2:
+                    color.red = 0;
+                    color.green = 0;
+                    color.blue = std::rand() % 256;
+                    break;
+                case 3:
+                    color.red = std::rand() % 256;
+                    color.green = std::rand() % 256;
+                    color.blue = 0;
+                    break;
+                case 4:
+                    color.red = std::rand() % 256;
+                    color.green = 0;
+                    color.blue = 0;
+                    break;
+                case 5:
+                    color.red = std::rand() % 256;
+                    color.green = std::rand() % 256;
+                    color.blue = 0;
+                    break;
+                case 6:
+                    color.red = std::rand() % 256;
+                    color.green = 0;
+                    color.blue = std::rand() % 256;
+                    break;
+                case 7:
+                    color.red = 0;
+                    color.green = 0;
+                    color.blue = std::rand() % 256;
+                    break;
+                case 8:
+                    color.red = 0;
+                    color.green = std::rand() % 256;
+                    color.blue = std::rand() % 256;
+                    break;
+                case 9:
+                    color.red = 0;
+                    color.green = std::rand() % 256;
+                    color.blue = 0;
+                    break;
+                case 10:
+                    color.red = 0;
+                    color.green = std::rand() % 256;
+                    color.blue = std::rand() % 256;
+                    break;
+                case 11:
+                    color.red = std::rand() % 256;
+                    color.green = std::rand() % 256;
+                    color.blue = 0;
+                    break;
             }
             ppmFileStream << color.red << " " << color.green << " " << color.blue << "\t";
         }
