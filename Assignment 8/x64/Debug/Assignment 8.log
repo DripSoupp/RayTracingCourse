@@ -1,0 +1,6 @@
+﻿  Assignment 8.cpp
+D:\UNI\Assignment 8\SceneParser.h(13,19): warning C4099: 'ChaosCourse::TriProxy': type name first seen using 'struct' now seen using 'class'
+D:\UNI\Assignment 8\Mesh.h(12,12): message : see declaration of 'ChaosCourse::TriProxy'
+D:\UNI\Assignment 8\Renderer.h(13,19): warning C4099: 'ChaosCourse::ColorRGB': type name first seen using 'struct' now seen using 'class'
+D:\UNI\Assignment 8\ColorRGB.h(8,12): message : see declaration of 'ChaosCourse::ColorRGB'
+  Assignment 8.vcxproj -> D:\UNI\Assignment 8\x64\Debug\Assignment 8.exe
