@@ -1,83 +1,179 @@
-#pragma once
+#include "Matrix3x3.h"
+#include "CRTVector.h"
+#include <assert.h>
+#include <utility>
 
 namespace ChaosCourse {
-    //Forward-declaration
-    class CRTVector;
+    Matrix3x3::Matrix3x3() {
+        for (int i = 0; i < 9; i++) {
+            entry[i] = 0.0f;
+        }
+    }
 
-    /*
-    * Class to represent a 3x3 matrix. The matrix is stored in column-major form in memory.
-    * Matrix-Matrix and Matrix-Vector multiplicaiton must be read from right to left.
-    */
-    class Matrix3x3 {
-    public:
-        /* CONSTRUCTORS */
+    Matrix3x3::Matrix3x3(float a00, float a01, float a02, float a10, float a11, float a12, float a20, float a21, float a22) {
+        //Note that input is ordered in row-major fashion (first three input parameters = first row, etc.) but
+        //they are stored in memory in column-major order.
 
-        //Default constructor - zero matrix
-        Matrix3x3();
+        //col 0
+        entry[0] = a00;
+        entry[1] = a10;
+        entry[2] = a20;
 
-        //The matrix entries are initialized to a set of values.
-        //NOTE: Parameters are ordered in row-major fashion for convenience
-        // I.e.
-        //   entries are encoded as 'a[row][col]' - row0: <a00, a01, a02>, row1: <a10,a11,a12>, row2: <a20,a21,a22>
-        Matrix3x3(float a00, float a01, float a02, float a10, float a11, float a12, float a20, float a21, float a22);
+        //col 1
+        entry[3] = a01;
+        entry[4] = a11;
+        entry[5] = a21;
 
-        //The matrix entries are initialized to an array.
-        //NOTE: It is assumed that the array contains the 9 matrix entries correctly ordered in column-major fashion
-        // (the way they are stored in memory).
-        Matrix3x3(float* entries);
+        //col 2
+        entry[6] = a02;
+        entry[7] = a12;
+        entry[8] = a22;
+    }
 
-        //The matrix is initialized to another matrix. (Copy constructor)
-        Matrix3x3(const Matrix3x3& m);
+    Matrix3x3::Matrix3x3(float* entries) {
+        //Assume valid input
+        for (int i = 0; i < 9; i++) {
+            entry[i] = entries[i];
+        }
+    }
 
+    Matrix3x3::Matrix3x3(const Matrix3x3& m) {
+        for (int i = 0; i < 9; i++) {
+            entry[i] = m.entry[i];
+        }
+    }
 
-        /* ARITHMETIC OPERATORS */
+    Matrix3x3 Matrix3x3::operator+(const Matrix3x3& m) const {
+        Matrix3x3 result;
 
-        Matrix3x3 operator+(const Matrix3x3& m) const;
-        Matrix3x3 operator-(const Matrix3x3& m) const;
-        Matrix3x3 operator*(float s) const;
-        //NOTE: Multiplication proceeds right-to-left, i.e. [Result] = [Matrix] * [Vector]
-        //Convention was adopted in accordance with the A*x=b equation in linear algebra.
-        CRTVector operator*(const CRTVector& v) const;
-        //NOTE: Multiplication proceeds right-to-left, i.e. [Result] = [Matrix 2] * [Matrix 1]
-        Matrix3x3 operator*(const Matrix3x3& m) const;
-        Matrix3x3& operator=(const Matrix3x3& m);
+        for (int i = 0; i < 9; i++) {
+            result.entry[i] = entry[i] + m.entry[i];
+        }
 
+        return result;
+    }
 
-        /* GETTERS */
+    Matrix3x3 Matrix3x3::operator-(const Matrix3x3& m) const {
+        Matrix3x3 result;
 
-        //Get the a[i][j] entry in the matrix. Note that indices must be in [0,2] range.
-        float getEntry(int row, int col) const;
+        for (int i = 0; i < 9; i++) {
+            result.entry[i] = entry[i] - m.entry[i];
+        }
 
-        //Get the i-th row, where i is in the [0,2] range.
-        CRTVector row(int row) const;
+        return result;
+    }
 
-        //Get the j-th col, where j is in the [0,2] range.
-        CRTVector col(int col) const;
+    Matrix3x3 Matrix3x3::operator*(float s) const {
+        return Matrix3x3(
+            s * entry[0], s * entry[3], s * entry[6],
+            s * entry[1], s * entry[4], s * entry[7],
+            s * entry[2], s * entry[5], s * entry[8]);
+    }
 
-        //Get transposed matrix
-        Matrix3x3 getTranspose() const;
+    CRTVector Matrix3x3::operator*(const CRTVector& v) const {
+        return CRTVector(
+            entry[0] * v.x + entry[3] * v.y + entry[6] * v.z,
+            entry[1] * v.x + entry[4] * v.y + entry[7] * v.z,
+            entry[2] * v.x + entry[5] * v.y + entry[8] * v.z);
+    }
 
+    Matrix3x3 Matrix3x3::operator*(const Matrix3x3& m) const {
+        float matEntry[9] = { 0.0f };
 
-        /* OTHER */
+        matEntry[0] = entry[0] * m.entry[0] + entry[3] * m.entry[1] + entry[6] * m.entry[2];
+        matEntry[1] = entry[1] * m.entry[0] + entry[4] * m.entry[1] + entry[7] * m.entry[2];
+        matEntry[2] = entry[2] * m.entry[0] + entry[5] * m.entry[1] + entry[8] * m.entry[2];
 
-        //Sets a column of the matrix. Col index must be in [0,2] range.
-        void setCol(int col, CRTVector& v);
+        matEntry[3] = entry[0] * m.entry[3] + entry[3] * m.entry[4] + entry[6] * m.entry[5];
+        matEntry[4] = entry[1] * m.entry[3] + entry[4] * m.entry[4] + entry[7] * m.entry[5];
+        matEntry[5] = entry[2] * m.entry[3] + entry[5] * m.entry[4] + entry[8] * m.entry[5];
 
-        //Perform Gram-Schmidt Orthogonalization to make the columns of the matrix orthogonal vectors.
-        //Then, normalize the columns to ensure an orthogonal matrix (columns are orthonormal).
-        void orthogonalize();
+        matEntry[6] = entry[0] * m.entry[6] + entry[3] * m.entry[7] + entry[6] * m.entry[8];
+        matEntry[7] = entry[1] * m.entry[6] + entry[4] * m.entry[7] + entry[7] * m.entry[8];
+        matEntry[8] = entry[2] * m.entry[6] + entry[5] * m.entry[7] + entry[8] * m.entry[8];
 
-    private:
-        //Entries will be encoded in col-major fashion.
-        float entry[9];
-    };
+        return Matrix3x3(matEntry);
+    }
 
-    //Create a rotation matrix about the X-axis. Angle must be given in radians.
-    Matrix3x3 createRotationX(float angle);
+    Matrix3x3& Matrix3x3::operator=(const Matrix3x3& m) {
+        for (int i = 0; i < 9; i++) {
+            entry[i] = m.entry[i];
+        }
+        return *this;
+    }
 
-    //Create a rotation matrix about the Y-axis. Angle must be given in radians.
-    Matrix3x3 createRotationY(float angle);
+    float Matrix3x3::getEntry(int row, int col) const {
+        assert(row >= 0 && row <= 2 && col >= 0 && col <= 2);
+        return entry[col * 3 + row];
+    }
 
-    //Create a rotation matrix about the Z-axis. Angle must be given in radians.
-    Matrix3x3 createRotationZ(float angle);
+    CRTVector Matrix3x3::row(int row) const {
+        assert(row >= 0 && row <= 2);
+        return CRTVector(entry[row], entry[row + 3], entry[row + 6]);
+    }
+
+    CRTVector Matrix3x3::col(int col) const
+    {
+        return CRTVector(entry[col * 3], entry[col * 3 + 1], entry[col * 3 + 2]);
+    }
+
+    Matrix3x3 Matrix3x3::getTranspose() const {
+        //current_mat_col_i = transposed_mat_row_i, for 0<=i<=2
+        return Matrix3x3(entry[0], entry[1], entry[2],
+            entry[3], entry[4], entry[5],
+            entry[6], entry[7], entry[8]);
+    }
+
+    void Matrix3x3::setCol(int col, CRTVector& v) {
+        assert(col >= 0 && col <= 2);
+        entry[col * 3] = v.x;
+        entry[col * 3 + 1] = v.y;
+        entry[col * 3 + 2] = v.z;
+    }
+
+    void Matrix3x3::orthogonalize() {
+        CRTVector col0 = col(0);
+        CRTVector col1 = col(1);
+        CRTVector col2 = col(2);
+        //Gram-Schmidt
+        col1 = col1 - (col1.dot(col0) / col0.getLenSquared()) * col0;
+        col2 = col2 - ((col2.dot(col0)) / col0.getLenSquared()) * col0;
+        col2 = col2 - ((col2.dot(col1)) / col1.getLenSquared()) * col1;
+
+        //Additional normalization
+        col0.normalize();
+        col1.normalize();
+        col2.normalize();
+
+        setCol(0, col0);
+        setCol(1, col1);
+        setCol(2, col2);
+    }
+
+    Matrix3x3 createRotationX(float angle) {
+        float c = cosf(angle);
+        float s = sinf(angle);
+        return Matrix3x3(
+            1.0f, 0.0f, 0.0f,
+            0.0f, c, -s,
+            0.0f, s, c);
+    }
+
+    Matrix3x3 createRotationY(float angle) {
+        float c = cosf(angle);
+        float s = sinf(angle);
+        return Matrix3x3(
+            c, 0.0f, s,
+            0.0f, 1.0f, 0.0f,
+            -s, 0.0f, c);
+    }
+
+    Matrix3x3 createRotationZ(float angle) {
+        float c = cosf(angle);
+        float s = sinf(angle);
+        return Matrix3x3(
+            c, -s, 0.0f,
+            s, c, 0.0f,
+            0.0f, 0.0f, 1.0f);
+    }
 }
