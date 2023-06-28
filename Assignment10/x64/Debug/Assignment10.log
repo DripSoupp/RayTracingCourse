@@ -1,0 +1,46 @@
+﻿  Scanning sources for module dependencies...
+  Assignment10.cpp
+D:\Assignment10\Constants.h(11,33): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+D:\Assignment10\Constants.h(15,51): warning C4305: 'initializing': truncation from 'double' to 'const float'
+D:\Assignment10\Material.h(17,17): warning C4099: 'Material': type name first seen using 'class' now seen using 'struct'
+D:\Assignment10\Material.h(17,8): message : see declaration of 'Material'
+D:\Assignment10\Parser.h(47,34): warning C4267: 'argument': conversion from 'size_t' to 'rapidjson::SizeType', possible loss of data
+D:\Assignment10\Parser.h(48,38): warning C4267: 'argument': conversion from 'size_t' to 'rapidjson::SizeType', possible loss of data
+D:\Assignment10\Parser.h(49,38): warning C4267: 'argument': conversion from 'size_t' to 'rapidjson::SizeType', possible loss of data
+D:\Assignment10\Parser.h(60,32): warning C4267: 'argument': conversion from 'size_t' to 'rapidjson::SizeType', possible loss of data
+D:\Assignment10\Parser.h(61,36): warning C4267: 'argument': conversion from 'size_t' to 'rapidjson::SizeType', possible loss of data
+D:\Assignment10\Parser.h(62,36): warning C4267: 'argument': conversion from 'size_t' to 'rapidjson::SizeType', possible loss of data
+D:\Assignment10\Parser.h(83,1): warning C4267: 'argument': conversion from 'size_t' to 'rapidjson::SizeType', possible loss of data
+D:\Assignment10\Parser.h(90,1): warning C4267: 'argument': conversion from 'size_t' to 'rapidjson::SizeType', possible loss of data
+D:\Assignment10\Parser.h(96,1): warning C4267: 'argument': conversion from 'size_t' to 'rapidjson::SizeType', possible loss of data
+D:\Assignment10\Parser.h(185,1): warning C4267: 'argument': conversion from 'size_t' to 'rapidjson::SizeType', possible loss of data
+D:\Assignment10\Parser.h(192,1): warning C4267: 'argument': conversion from 'size_t' to 'rapidjson::SizeType', possible loss of data
+D:\Assignment10\Parser.h(216,1): warning C4267: 'argument': conversion from 'size_t' to 'rapidjson::SizeType', possible loss of data
+D:\Assignment10\Parser.h(222,1): warning C4267: 'argument': conversion from 'size_t' to 'rapidjson::SizeType', possible loss of data
+D:\Assignment10\Parser.h(223,1): warning C4267: 'argument': conversion from 'size_t' to 'rapidjson::SizeType', possible loss of data
+D:\Assignment10\Parser.h(236,1): warning C4267: 'argument': conversion from 'size_t' to 'rapidjson::SizeType', possible loss of data
+D:\Assignment10\Scene.h(15,13): warning C4099: 'Scene': type name first seen using 'struct' now seen using 'class'
+D:\Assignment10\Scene.h(15,7): message : see declaration of 'Scene'
+D:\Assignment10\Renderer.h(39,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Assignment10\Renderer.h(39,1): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+D:\Assignment10\Renderer.h(45,55): warning C4244: 'argument': conversion from 'float' to 'const T', possible loss of data
+          with
+          [
+              T=int
+          ]
+D:\Assignment10\Renderer.h(44,55): warning C4244: 'argument': conversion from 'float' to 'const T', possible loss of data
+          with
+          [
+              T=int
+          ]
+D:\Assignment10\Renderer.h(43,87): warning C4244: 'argument': conversion from 'float' to 'const T', possible loss of data
+          with
+          [
+              T=int
+          ]
+D:\Assignment10\Assignment10.cpp(41,64): warning C4244: 'argument': conversion from 'int64_t' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  Assignment10.vcxproj -> D:\Assignment10\x64\Debug\Assignment10.exe
